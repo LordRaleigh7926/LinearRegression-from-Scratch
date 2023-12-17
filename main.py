@@ -21,6 +21,7 @@ plt.scatter([23,45,67,86,32,45],[23,45,67,86,32,45])
 # Plotting our predicted values
 plt.plot([23,45,67,86,32,45], y)
 
+
 plt.xlabel("X")
 plt.ylabel("Y")
 plt.title(f"Line with weight = {w} and bias = {b}")
