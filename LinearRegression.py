@@ -36,7 +36,6 @@ def Gradient_Descent(x, y, alpha=0.0001, epochs=300):
     weights = 0
     bias= 0
 
-
     # For loop for epochs
     for _ in range(epochs):
 
