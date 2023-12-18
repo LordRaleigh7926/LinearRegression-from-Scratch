@@ -9,7 +9,7 @@ class LossFunction:
         # m stores number of DataPoints
         m = len(pred) 
 
-        # MSE = 1/(2m)* Σ((ŷ-y)^2), iterated m times. For more info search MSE formula
+        # MSE = 1/(m)* Σ((ŷ-y)^2), iterated m times. For more info search MSE formula
         loss = 0 
 
         # Iterating m times
