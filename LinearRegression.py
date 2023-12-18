@@ -16,7 +16,7 @@ class LossFunction:
         for i in range(m): 
             loss = loss+(actual[i]-pred[i])**2
 
-        FinalLoss = loss/(2*m)
+        FinalLoss = loss/(m)
 
         return FinalLoss
 

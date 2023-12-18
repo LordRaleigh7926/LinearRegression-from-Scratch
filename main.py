@@ -1,7 +1,8 @@
-from LinearRegression import LinearRegressor
+from LinearRegression import LinearRegressor, LossFunction
 import matplotlib.pyplot as plt
         
 a = LinearRegressor()
+Lossfunc = LossFunction()
 
 # Using a Made Up Linear Data
 X_train = [1, 2, 45, 65, 77, 95]
@@ -13,6 +14,9 @@ print(w,b)
 
 y = a.predict([23,45,67,86,32,45])
 
+loss = Lossfunc.Mean_Squared_Error(y, [23,45,67,86,32,45])
+
+print(loss)
 print(y)
 
 # The correct Y Values
