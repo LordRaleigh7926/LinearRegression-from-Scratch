@@ -9,7 +9,7 @@ class LossFunction:
         # m stores number of DataPoints
         m = len(pred) 
 
-        # MSE = 1/(2m)* Σ((ŷ-y)^2), iterated m times. For more info search MSE formula
+        # MSE = 1/(m)* Σ((ŷ-y)^2), iterated m times. For more info search MSE formula
         loss = 0 
 
         # Iterating m times
@@ -60,17 +60,17 @@ def Gradient_Descent(x, y, alpha=0.0001, epochs=300):
 class LinearRegressor:
 
     # Takes in the loss function and the learning rate
-    def __init__(self, loss_function='Mean_Squared_Error', learning_rate=0.0001):
+    def __init__(self, learning_rate=0.0001, epochs=300):
         
+        self.epochs = epochs
         self.alpha = learning_rate
-        self.J = loss_function
         self.bias = self.weights = None
 
     # Used to train the model and set the weights and bias
     # It uses the function Gradient_Descent
     def train(self, x, y):
 
-        self.weights, self.bias = Gradient_Descent(x, y, self.alpha)
+        self.weights, self.bias = Gradient_Descent(x, y, self.alpha, self.epochs)
         return self.weights,self.bias
 
     # Used to predict a single y value for x
