@@ -2,18 +2,19 @@
 class LossFunction:
 
     # Mean Squared Error. One of the loss functions
+    #Takes in self. list of Predicted values (ŷ). List of Actual values (y) 
     def Mean_Squared_Error(self, pred, actual): 
         
-        #Takes in self. list of Predicted values (ŷ). List of Actual values (y) 
 
         # m stores number of DataPoints
         m = len(pred) 
 
-        # MSE = 1/(m)* Σ((ŷ-y)^2), iterated m times. For more info search MSE formula
+        # MSE = 1/(m)* Σ((y-ŷ)^2), iterated m times. For more info search MSE formula
         loss = 0 
 
         # Iterating m times
         for i in range(m): 
+            # Adding the squared errors
             loss = loss+(actual[i]-pred[i])**2
 
         FinalLoss = loss/(m)
@@ -59,7 +60,9 @@ def Gradient_Descent(x, y, alpha=0.0001, epochs=300):
 # The Linear Regressor
 class LinearRegressor:
 
-    # Takes in the loss function and the learning rate
+    # Takes in the learning rate and number of epochs
+    # Default epochs = 300
+    # Default learning_rate = 0.0001
     def __init__(self, learning_rate=0.0001, epochs=300):
         
         self.epochs = epochs
