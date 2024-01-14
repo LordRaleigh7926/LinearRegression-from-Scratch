@@ -1,34 +1,26 @@
 from LinearRegression import LinearRegressor, LossFunction
-import matplotlib.pyplot as plt
-        
-a = LinearRegressor()
+
+model = LinearRegressor(epochs=900)
 Lossfunc = LossFunction()
 
 # Using a Made Up Linear Data
-X_train = [1, 2, 45, 65, 77, 95]
-y_train = [1, 2, 45, 65, 77, 95]
+X_train = [[1,1,1,1],[4,4,4,4]]
+y_train = [1,4]
+X_test = [[7,7,7,7]]
+y_test = [7]
 
 
-w, b= a.train(X_train,y_train)
-print(w,b)
+model.train(X_train,y_train)
 
-y = a.predict([23,45,67,86,32,45])
+print(model.weights, model.bias)
 
-loss = Lossfunc.Mean_Squared_Error(y, [23,45,67,86,32,45])
+y = model.predict(X_test)
+
+loss = Lossfunc.Mean_Squared_Error([7], y)
 
 print(loss)
 print(y)
 
-# The correct Y Values
-plt.scatter([23,45,67,86,32,45],[23,45,67,86,32,45])
-
-# Plotting our predicted values
-plt.plot([23,45,67,86,32,45], y)
-
-plt.xlabel("X")
-plt.ylabel("Y")
-plt.title(f"Line with weight = {w} and bias = {b}")
-plt.show()
 
 
 
