@@ -63,12 +63,12 @@ def Gradient_Descent(x, y, alpha=0.0001, epochs=1000):
             error = y[i] - prediction
 
             # Calculating the Derivatives
-            for k in range(len(weights)):
+            for k in range(n):
                 updated_weights[k] += -(2/m)*x[i][k]*error
             updated_bias += -(2/m) * error
 
         # Updating the weights and biases
-        for i in range(len(x[0])):
+        for i in range(n):
             weights[i] = weights[i] - updated_weights[i]*alpha
         bias = bias - updated_bias*alpha
 

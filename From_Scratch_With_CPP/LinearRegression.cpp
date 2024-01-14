@@ -6,10 +6,10 @@ using namespace std;
 
 
 // Mean Squared Error. One of the loss functions
-double LossFunction::MSE(int sz,vector<double> pred, double actual[]){
+double LossFunction::MSE(vector<double> pred, vector<double> actual){
 
-    // m stores number od datapoints
-    double m = (double) sz;
+    // m stores number of datapoints
+    double m = actual.size();
 
     // Initializing the loss
     double loss = 0.0;
@@ -30,37 +30,57 @@ double LossFunction::MSE(int sz,vector<double> pred, double actual[]){
 /*
 Gradient Descent Function.
 Used to minimize error and get to the best weights and bias.
-Takes in x, y and the learning rate and the number of epochs
+Takes in x, y, number of datapoints, number of features and the learning rate and the number of epochs
 Formula for Gradient Descent for Linear Regression
 */
-pair<float,float> Gradient_Descent(double x[], double y[], int sz, float alpha, int epochs){
+pair<vector<double>,double> Gradient_Descent(vector<vector<double>> x, vector<double> y, double alpha, int epochs){
 
     // m stores number of DataPoints
-    int m = sz;
+    int m = x.size();
+
+    // n stores number of features
+    int n = x[0].size();
 
     // Setting the main Bias and Weight to 0
-    double weights = 0;
     double bias = 0;
+
+    // weights is a list where there are n number of 0s 
+    vector<double> weights(n, 0.0);
+    
 
     // for loop for number of epochs
     for (int _=0;_<epochs; _++) {
 
         //  Setting the updated weight and updated bias to 0 after every iteration
-        double updated_weights = 0 ; double updated_bias = 0;
-
+        double updated_bias = 0;
+        vector<double> updated_weights(n, 0.0);
+        
         // Loop for adding the derivated error for all the datapoints
         for (int i=0; i<m; i++){
 
-            updated_weights =+ -(2.0/m)*(x[i])*((y[i])-(weights*x[i]+bias));
-            updated_bias = updated_bias + (-(2.0/m)*(y[i]-(weights*x[i]+bias)));
+            // Calculating error
+            double prediction = bias;
+            for (int k=0; k<n; k++){
+                prediction += weights[k] * x[i][k];
+            }
+            double error = y[i] - prediction;
+
+            // Derivating
+            for (int k=0; k<n; k++){
+                updated_weights[k] += -(2.0/m)*(x[i][k])*error;
+            }
+            updated_bias = updated_bias + (-(2.0/m)*error);
         }
 
         // Updating the weights and biases
-        weights = weights - updated_weights*alpha;
+        for (int i=0; i<n; i++){
+            weights[i] = weights[i] - updated_weights[i]*alpha;
+        }
         bias = bias - updated_bias*alpha;
 
     }
 
+    // weights is a vector of doubles and bias just a double
     return make_pair(weights, bias);
 
 }
@@ -69,7 +89,7 @@ pair<float,float> Gradient_Descent(double x[], double y[], int sz, float alpha, 
 
 
 // Takes in the learning rate and number of epochs
-// Default epochs = 300
+// Default epochs = 1000
 // Default learning_rate = 0.0001
 LinearRegressor::LinearRegressor(double learning_rate,int epoch){
 
@@ -80,41 +100,52 @@ LinearRegressor::LinearRegressor(double learning_rate,int epoch){
 
 // Used to train the model and set the weights and bias
 // It uses the function Gradient_Descent
-void LinearRegressor::train(int sz, double x[], double y[]){
+void LinearRegressor::train(vector<vector<double>> x, vector<double> y){
+
+    int sz = x.size();
+
+    int features = x[0].size(); 
 
     // Using the function
-    pair<float,float> WeightsAndBias = Gradient_Descent(x,y,sz,alpha,epoch);
+    pair<vector<double>,double> WeightsAndBias = Gradient_Descent(x,y,alpha,epoch);
     
     // Obtaining the optimized weights and bias
     this->weights = WeightsAndBias.first;
     this->bias = WeightsAndBias.second;
 
+    // Storing number of features
+    this->features = features;
+
 }
 
 // This is of course used to predict the set of x values
 // As mentioned earlier it uses the function gettingValues 
-vector<double> LinearRegressor::predict(int sz, double x[]){
+vector<double> LinearRegressor::predict(vector<vector<double>> x, vector<double> pred){
 
-    // Creating a vector to store predicted values
-    vector<double> PREDICTED_VALUES;
-
-    int pred_size = sz;
+    int pred_size = x.size();
 
     // Loop for getting all the predicted value individually
     for (int i=0; i<pred_size; i++){
 
-
         // Adding the predicted values to the vector
-        PREDICTED_VALUES.push_back(gettingValues(x[i]));
+        pred.push_back(gettingValues(x[i]));
     }
-
-    return PREDICTED_VALUES;
+    
+    return pred;
 
 }
 
 // Used to predict a single y value for x
 // Used in predict function
-double LinearRegressor::gettingValues(double x){
-    double y = weights*x+bias;
+double LinearRegressor::gettingValues(vector<double> x){
+
+    // Initialized y as bias
+    double y = bias;
+
+    // Adding mᵢ*xᵢ till i=number of features
+    for (int i = 0; i < features; i++) {
+        y += weights[i] * x[i];
+    }
+
     return y;
 }

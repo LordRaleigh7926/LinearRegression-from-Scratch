@@ -5,23 +5,25 @@ using namespace std;
 // A class for Loss functions
 class LossFunction{
     public:
-        double MSE(int sz,vector<double> pred, double actual[]);
+        double MSE(vector<double> pred, vector<double> actual);
 };
 
-pair<float,float> Gradient_Descent(double x[], double y[], int sz, float alpha=0.0001, int epochs=300);
+pair<vector<double>,double> Gradient_Descent(vector<vector<double>> x, vector<double> y, double alpha, int epochs);
 
 // The Linear Regressor
 class LinearRegressor {  
     public:
-        int epoch = 0; 
+        int epoch = 0;
         double alpha = 0;
-        double weights = 0, bias = 0;
+        vector<double> weights; 
+        double bias = 0;
+        int features;
 
-        LinearRegressor(double learning_rate=0.0001,int epoch=300);
-        void train(int sz, double x[], double y[]);
-        vector<double> predict(int sz, double x[]);
+        LinearRegressor(double learning_rate=0.0001 , int epoch=1000);
+        void train(vector<vector<double>> x, vector<double> y);
+        vector<double> predict(vector<vector<double>> x, vector<double> pred);
 
     private:
-        double gettingValues(double x);
+        double gettingValues(vector<double> x);
 };
 
