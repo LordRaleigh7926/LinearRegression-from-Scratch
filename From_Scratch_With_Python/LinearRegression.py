@@ -47,17 +47,6 @@ def Gradient_Descent(x, y, alpha=0.0001, epochs=1000):
     # For loop for epochs
     for _ in range(epochs):
 
-        # Calculating the error
-        for i in range(m):
-
-            prediction = bias
-
-            for k in range(n):
-                prediction += weights[k] * x[i][k]
-            
-            error = y[i] - prediction
-
-
         # Setting the updated weight and updated bias to 0 after every iteration
         updated_bias = 0
         updated_weights = []
@@ -66,7 +55,13 @@ def Gradient_Descent(x, y, alpha=0.0001, epochs=1000):
 
         # Loop for adding the derivated error for all the datapoints
         for i in range(m):
-            
+
+            # Calculating the Error
+            prediction = bias
+            for k in range(n):
+                prediction += weights[k] * x[i][k]
+            error = y[i] - prediction
+
             # Calculating the Derivatives
             for k in range(len(weights)):
                 updated_weights[k] += -(2/m)*x[i][k]*error

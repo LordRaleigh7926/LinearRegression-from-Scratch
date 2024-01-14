@@ -1,6 +1,6 @@
 from LinearRegression import LinearRegressor, LossFunction
 
-model = LinearRegressor(epochs=900)
+model = LinearRegressor(epochs=1000,learning_rate=0.01)
 Lossfunc = LossFunction()
 
 # Using a Made Up Linear Data
